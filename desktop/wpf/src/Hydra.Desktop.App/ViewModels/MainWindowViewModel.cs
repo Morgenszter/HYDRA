@@ -4,7 +4,9 @@ using Hydra.Desktop.Core.Runtime;
 
 namespace Hydra.Desktop.App.ViewModels;
 
-public partial class MainWindowViewModel(IHydraRuntimeService runtimeService) : ObservableObject
+public partial class MainWindowViewModel(
+    IHydraRuntimeService runtimeService,
+    IHydraBridgeLifecycleService bridgeLifecycleService) : ObservableObject
 {
     [ObservableProperty]
     private string runtimeId = "not-connected";
@@ -18,6 +20,25 @@ public partial class MainWindowViewModel(IHydraRuntimeService runtimeService) : 
     [ObservableProperty]
     private bool isBusy;
 
+    [ObservableProperty]
+    private string statusMessage = "Bridge not queried yet.";
+
+    [RelayCommand]
+    private async Task StartBridgeAsync()
+    {
+        IsBusy = true;
+
+        try
+        {
+            var result = await bridgeLifecycleService.EnsureBridgeAsync(CancellationToken.None);
+            StatusMessage = result.Message;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
     [RelayCommand]
     private async Task RefreshAsync()
     {
@@ -25,10 +46,21 @@ public partial class MainWindowViewModel(IHydraRuntimeService runtimeService) : 
 
         try
         {
-            var snapshot = await runtimeService.GetSnapshotAsync(CancellationToken.None);
-            RuntimeId = snapshot.RuntimeId;
-            Health = snapshot.Health;
-            CapturedAt = snapshot.CapturedAt.ToLocalTime().ToString("u");
+            var result = await runtimeService.GetSnapshotAsync(CancellationToken.None);
+
+            if (!result.IsSuccess || result.Snapshot is null)
+            {
+                RuntimeId = "not-connected";
+                Health = "OFFLINE";
+                CapturedAt = "-";
+                StatusMessage = result.ErrorMessage ?? "Bridge unavailable.";
+                return;
+            }
+
+            RuntimeId = result.Snapshot.RuntimeId;
+            Health = result.Snapshot.Health;
+            CapturedAt = result.Snapshot.CapturedAt.ToLocalTime().ToString("u");
+            StatusMessage = "Runtime snapshot loaded.";
         }
         finally
         {

@@ -8,23 +8,39 @@ public sealed class HydraGrpcRuntimeService : IHydraRuntimeService, IDisposable
 {
     private readonly GrpcChannel channel;
     private readonly HydraRuntimeService.HydraRuntimeServiceClient client;
+    private readonly HydraDesktopOptions options;
 
-    public HydraGrpcRuntimeService(string endpoint)
+    public HydraGrpcRuntimeService(HydraDesktopOptions options)
     {
-        channel = GrpcChannel.ForAddress(endpoint);
+        this.options = options;
+        AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+        channel = GrpcChannel.ForAddress(options.BridgeEndpoint);
         client = new HydraRuntimeService.HydraRuntimeServiceClient(channel);
     }
 
-    public async Task<RuntimeSnapshotModel> GetSnapshotAsync(CancellationToken cancellationToken)
+    public async Task<HydraRuntimeResult> GetSnapshotAsync(CancellationToken cancellationToken)
     {
-        var response = await client.GetRuntimeSnapshotAsync(
-            new GetRuntimeSnapshotRequest { ClientId = "hydra-wpf-desktop" },
-            cancellationToken: cancellationToken);
+        try
+        {
+            var response = await client.GetRuntimeSnapshotAsync(
+                new GetRuntimeSnapshotRequest { ClientId = options.ClientId },
+                cancellationToken: cancellationToken);
 
-        return new RuntimeSnapshotModel(
-            response.RuntimeId,
-            response.Health.ToString(),
-            response.CapturedAt.ToDateTimeOffset());
+            var snapshot = new RuntimeSnapshotModel(
+                response.RuntimeId,
+                response.Health.ToString(),
+                response.CapturedAt.ToDateTimeOffset());
+
+            return HydraRuntimeResult.Success(snapshot);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            return HydraRuntimeResult.Failure("Runtime request was cancelled.");
+        }
+        catch (Exception error)
+        {
+            return HydraRuntimeResult.Failure($"Bridge unavailable at {options.BridgeEndpoint}: {error.Message}");
+        }
     }
 
     public void Dispose()

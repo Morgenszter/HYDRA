@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "local-filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:\\HYDRA"],
+      "disabled": false,
+      "autoApprove": []
+    },
+    "local-terminal": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

@@ -1,37 +1,39 @@
-﻿# HYDRA_HOME
+# HYDRA Bridge Full Code v1
 
-Canonical hybrid system root.
+## Zawartość
 
-## Stack
+- pełny `Program.cs`
+- kompletne projekty:
+  - Hydra.Bridge.Api
+  - Hydra.Bridge.Application
+  - Hydra.Bridge.Infrastructure
+- serwisy gRPC:
+  - Runtime
+  - Devices
+  - Voice
+  - AI/Ollama
+- repozytoria in-memory
+- konfiguracja Ollama
+- wszystkie pliki `.proto`
+- solution `.slnx`
 
-- Rust Core
-- .NET 8 Bridge
-- WPF Desktop / Tray
-- gRPC / Protobuf
-- WiX Toolset v4 / Burn
-- React Native / Expo Mobile HUD
-- Figma-driven design system
-- curated asset pipeline
+## Uruchomienie
 
-## Forbidden
+```powershell
+ollama pull qwen3:8b
+ollama serve
 
-- Python
-- FastAPI
-- Flask
-- PyInstaller
-- Inno Setup
-- `.iss`
-
-## Layout
-
-```text
-contracts/proto      shared gRPC contracts
-core/rust            Rust workspace
-bridge/dotnet        .NET 8 gRPC bridge
-desktop/wpf          WPF desktop/tray clients
-mobile/expo          React Native / Expo HUD
-installer/wix        WiX v4 installer/bundle
-assets               curated asset registry and accepted assets
-design               Figma maps and design tokens
-docs                 architecture and operations documentation
+dotnet restore .\bridge\dotnet\Hydra.Bridge.slnx
+dotnet build .\bridge\dotnet\Hydra.Bridge.slnx
+dotnet run --project .\bridge\dotnet\src\Hydra.Bridge.Api\Hydra.Bridge.Api.csproj
 ```
+
+## Port
+
+Domyślnie:
+`http://localhost:5000`
+
+## Ważne
+
+Repozytoria Runtime/Devices/Voice są implementacjami in-memory.
+To jest pełny, działający Bridge v1, ale jeszcze bez prawdziwego połączenia z Rust Core, BLE, Tapo i Tuya.

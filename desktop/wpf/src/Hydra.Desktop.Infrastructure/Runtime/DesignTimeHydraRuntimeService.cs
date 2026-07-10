@@ -4,13 +4,15 @@ namespace Hydra.Desktop.Infrastructure.Runtime;
 
 public sealed class DesignTimeHydraRuntimeService : IHydraRuntimeService
 {
-    public Task<RuntimeSnapshotModel> GetSnapshotAsync(CancellationToken cancellationToken)
+    public Task<HydraRuntimeResult> GetSnapshotAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return Task.FromResult(new RuntimeSnapshotModel(
+        var snapshot = new RuntimeSnapshotModel(
             "hydra-home.local",
             "READY",
-            DateTimeOffset.UtcNow));
+            DateTimeOffset.UtcNow);
+
+        return Task.FromResult(HydraRuntimeResult.Success(snapshot));
     }
 }

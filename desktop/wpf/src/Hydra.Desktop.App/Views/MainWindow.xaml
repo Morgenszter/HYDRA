@@ -40,10 +40,22 @@
                            FontSize="18"
                            Margin="0,4,0,24" />
 
-                <Button Content="Refresh runtime snapshot"
-                        Width="220"
-                        HorizontalAlignment="Left"
-                        Command="{Binding RefreshCommand}" />
+                <TextBlock Text="Status"
+                           Foreground="{StaticResource HydraAccentBrush}" />
+                <TextBlock Text="{Binding StatusMessage}"
+                           Foreground="{StaticResource HydraTextBrush}"
+                           TextWrapping="Wrap"
+                           Margin="0,4,0,24" />
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Start bridge"
+                            Width="140"
+                            Margin="0,0,12,0"
+                            Command="{Binding StartBridgeCommand}" />
+                    <Button Content="Refresh runtime snapshot"
+                            Width="220"
+                            Command="{Binding RefreshCommand}" />
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>
