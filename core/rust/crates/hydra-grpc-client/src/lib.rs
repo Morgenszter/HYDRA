@@ -8,6 +8,12 @@ pub mod hydra {
       tonic::include_proto!("hydra.runtime.v1");
     }
   }
+
+  pub mod voice {
+    pub mod v1 {
+      tonic::include_proto!("hydra.voice.v1");
+    }
+  }
 }
 
 use hydra::runtime::v1::hydra_runtime_service_client::HydraRuntimeServiceClient;

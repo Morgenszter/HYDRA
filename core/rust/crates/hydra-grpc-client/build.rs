@@ -7,10 +7,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     .build_server(false)
     .compile_protos_with_config(
       prost_config,
-      &["../../../../contracts/proto/hydra.runtime.v1.proto"],
+      &[
+        "../../../../contracts/proto/hydra.runtime.v1.proto",
+        "../../../../contracts/proto/hydra.voice.v1.proto",
+      ],
       &["../../../../contracts/proto"],
     )?;
 
   println!("cargo:rerun-if-changed=../../../../contracts/proto/hydra.runtime.v1.proto");
+  println!("cargo:rerun-if-changed=../../../../contracts/proto/hydra.voice.v1.proto");
   Ok(())
 }
