@@ -1,0 +1,139 @@
+{
+  "id": "hydra.voice-hub.dsp-presets.v1",
+  "version": 1,
+  "presets": [
+    {
+      "id": "hydra.voice-hub.preset.omegon.v1",
+      "profile": "OMEGON",
+      "displayName": "OMEGON Armoured Helmet Vox",
+      "status": "active",
+      "intent": "Keep the trained model output as a clean, intelligible base voice and apply OMEGON identity exclusively through runtime Voice Hub DSP.",
+      "datasetPolicy": {
+        "baseVoice": "clean",
+        "allowedInTrainingDataset": [
+          "dry speech",
+          "neutral articulation",
+          "consistent microphone tone",
+          "natural breaths if captured cleanly"
+        ],
+        "forbiddenInTrainingDataset": [
+          "reverb",
+          "metallic helmet coloration",
+          "radio band-limiting",
+          "radio squelch",
+          "glitches",
+          "ambient beds",
+          "alarms",
+          "transition effects",
+          "impact effects"
+        ],
+        "notes": "Training data must remain dry and effect-free. Character layers are owned by the Voice Hub DSP preset and may be changed without retraining the voice model."
+      },
+      "signalChain": [
+        {
+          "stage": "input_conditioning",
+          "enabled": true,
+          "description": "Stabilizes the clean model output before character processing.",
+          "parameters": {
+            "inputGainDb": 0.0,
+            "highPassHz": 78,
+            "deEssAmount": 0.18,
+            "noiseGateThresholdDb": -58,
+            "softClipCeilingDb": -1.2
+          }
+        },
+        {
+          "stage": "eq",
+          "enabled": true,
+          "description": "Clear command-voice EQ with controlled low-mid armour weight and protected consonant intelligibility.",
+          "parameters": {
+            "lowShelfDb": 1.8,
+            "lowShelfHz": 155,
+            "lowMidCutDb": -1.4,
+            "lowMidCutHz": 360,
+            "presenceBoostDb": 2.1,
+            "presenceBoostHz": 2650,
+            "airShelfDb": 0.8,
+            "airShelfHz": 7200
+          }
+        },
+        {
+          "stage": "pitch_formant",
+          "enabled": true,
+          "description": "Subtle mass and authority shaping without making the model sound synthetic or transferred from the dataset.",
+          "parameters": {
+            "pitchShiftSemitones": -0.45,
+            "formantShiftRatio": 0.965,
+            "formantBlend": 0.24,
+            "transientPreserve": 0.82
+          }
+        },
+        {
+          "stage": "armoured_resonance",
+          "enabled": true,
+          "description": "Adds controlled chest/plate resonance for OMEGON armour presence while preserving clean syllable edges.",
+          "parameters": {
+            "resonanceMix": 0.14,
+            "bodyFrequencyHz": 185,
+            "plateFrequencyHz": 515,
+            "damping": 0.64,
+            "width": 0.18
+          }
+        },
+        {
+          "stage": "helmet_vox",
+          "enabled": true,
+          "description": "Runtime-only helmet enclosure and visor reflection layer; not a baked dataset characteristic.",
+          "parameters": {
+            "mix": 0.18,
+            "enclosureSize": 0.46,
+            "metallicReflection": 0.24,
+            "combDepth": 0.12,
+            "visorDamping": 0.58,
+            "radioBleed": 0.0
+          }
+        },
+        {
+          "stage": "reverb",
+          "enabled": true,
+          "description": "Short tactical enclosure reverb for space and scale, kept below intelligibility threshold.",
+          "parameters": {
+            "mix": 0.07,
+            "preDelayMs": 14,
+            "decayMs": 640,
+            "lowCutHz": 240,
+            "highCutHz": 5200,
+            "earlyReflections": 0.36
+          }
+        },
+        {
+          "stage": "ambient_blend",
+          "enabled": true,
+          "description": "Very low-level command-channel bed for runtime scenes only; never exported into training clips.",
+          "parameters": {
+            "mix": 0.025,
+            "duckingDb": -13.5,
+            "sidechainReleaseMs": 260,
+            "bedId": "hydra.ambient.omegon.command-deck.v1"
+          }
+        },
+        {
+          "stage": "output_limiter",
+          "enabled": true,
+          "description": "Final safety limiter for consistent Voice Hub output level.",
+          "parameters": {
+            "ceilingDb": -1.0,
+            "releaseMs": 85,
+            "targetLufs": -18.0
+          }
+        }
+      ],
+      "validation": {
+        "requiresCleanBaseVoice": true,
+        "requiresRuntimeOnlyFx": true,
+        "forbidDatasetFxLeakage": true,
+        "maxTotalWetFxMix": 0.46
+      }
+    }
+  ]
+}

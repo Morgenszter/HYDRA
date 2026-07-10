@@ -1,0 +1,162 @@
+{
+  "id": "hydra.dataset.omegon.v1",
+  "version": 1,
+  "profile": "OMEGON",
+  "locale": "pl-PL",
+  "status": "specification",
+  "root": "datasets/omegon",
+  "directories": {
+    "raw": "raw",
+    "clean": "clean",
+    "segments": "segments",
+    "train": "segments/train",
+    "validation": "segments/validation",
+    "reference": "reference"
+  },
+  "metadata": {
+    "format": "csv",
+    "path": "metadata.csv",
+    "columns": [
+      "file",
+      "text"
+    ],
+    "exampleRows": [
+      {
+        "file": "segments/train/omegon_0001.wav",
+        "text": "Rozkaz przyjęty."
+      },
+      {
+        "file": "segments/train/omegon_0002.wav",
+        "text": "Hydra Core pozostaje aktywny."
+      },
+      {
+        "file": "segments/validation/omegon_0003.wav",
+        "text": "Przełączam kanał głosowy na wyjście lokalne."
+      }
+    ]
+  },
+  "naming": {
+    "segmentPattern": "omegon_0001.wav",
+    "segmentRegex": "^omegon_[0-9]{4}\\.wav$"
+  },
+  "cleaning": {
+    "remove": [
+      "background noise",
+      "excessive room tone",
+      "clicks",
+      "non-speech fragments",
+      "dominant music beds"
+    ],
+    "preserve": [
+      "natural voice texture",
+      "clean breath detail when not distracting",
+      "speaker articulation"
+    ],
+    "avoid": [
+      "over-denoising",
+      "plastic radio tone",
+      "baked compression artifacts"
+    ]
+  },
+  "segmentation": {
+    "targetMinSeconds": 3,
+    "targetMaxSeconds": 12,
+    "unit": "one complete sentence or one coherent utterance per segment"
+  },
+  "split": {
+    "trainPercentRange": [
+      80,
+      90
+    ],
+    "validationPercentRange": [
+      10,
+      20
+    ],
+    "reference": "kept separate from train and validation"
+  },
+  "contentPacks": [
+    {
+      "id": "short_commands",
+      "required": true,
+      "examples": [
+        "Rozkaz przyjęty.",
+        "Wykonuję.",
+        "Kanał aktywny.",
+        "Połączenie przerwane.",
+        "Tryb głosowy aktywny."
+      ]
+    },
+    {
+      "id": "system_messages",
+      "required": true,
+      "examples": [
+        "Hydra Core pozostaje w gotowości.",
+        "Wykryto aktywne urządzenie audio.",
+        "Zmieniono trasę wyjścia na telefon."
+      ]
+    },
+    {
+      "id": "long_responses",
+      "required": true,
+      "examples": [
+        "Wszystkie podsystemy działają prawidłowo. Nie wykryto konfliktów w aktualnej konfiguracji."
+      ]
+    },
+    {
+      "id": "numbers_times_devices",
+      "required": true,
+      "examples": [
+        "Ustawiono temperaturę na dwadzieścia dwa stopnie.",
+        "Listwa LED została przełączona do grupy drugiej."
+      ]
+    },
+    {
+      "id": "polish_diacritics",
+      "required": true,
+      "requiredCharacters": [
+        "ą",
+        "ę",
+        "ś",
+        "ć",
+        "ł",
+        "ź",
+        "ż",
+        "ó",
+        "ń"
+      ]
+    }
+  ],
+  "forbiddenTrainingAudio": [
+    "reverb",
+    "metallic helmet coloration",
+    "radio band-limiting",
+    "radio squelch",
+    "glitches",
+    "ambient beds",
+    "alarms",
+    "transition effects",
+    "impact effects"
+  ],
+  "runtimeOwnership": {
+    "modelProvides": [
+      "clean base voice"
+    ],
+    "voiceHubProvides": [
+      "helmet vox",
+      "armoured resonance",
+      "EQ",
+      "subtle pitch/formant shaping",
+      "reverb",
+      "ambient blend"
+    ],
+    "dspPresetId": "hydra.voice-hub.preset.omegon.v1"
+  },
+  "acceptanceCriteria": [
+    "Each segment is 3-12 seconds unless explicitly accepted as an edge case.",
+    "Each segment contains one complete sentence or coherent utterance.",
+    "metadata.csv text matches what is actually audible, not the intended script.",
+    "Train and validation do not include reference-only files.",
+    "Training audio remains clean and dry with no baked Voice Hub effects.",
+    "The corpus includes commands, system messages, longer responses, numbers, temperatures, times, device names, and Polish diacritics."
+  ]
+}

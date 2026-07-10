@@ -251,11 +251,12 @@ message VoiceProfile {
   bool enabled = 5;
   bool is_default = 6;
   OMEGONVoiceProfile omegon = 7;
-  SpeechSynthesisOptions default_synthesis = 8;
-  VoicePlaybackOptions default_playback = 9;
-  map<string, string> attributes = 10;
-  google.protobuf.Timestamp created_at = 11;
-  google.protobuf.Timestamp updated_at = 12;
+  string dsp_preset_id = 8;
+  SpeechSynthesisOptions default_synthesis = 9;
+  VoicePlaybackOptions default_playback = 10;
+  map<string, string> attributes = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
 }
 
 message OMEGONVoiceProfile {
