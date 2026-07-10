@@ -1,0 +1,11 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="HYDRA_HOME" Manufacturer="HYDRA" Version="0.1.0.0" UpgradeCode="11111111-1111-4111-8111-111111111111">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of HYDRA_HOME is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="MainFeature" Title="HYDRA_HOME" Level="1">
+      <ComponentGroupRef Id="HydraApplicationComponents" />
+      <ComponentGroupRef Id="HydraShortcutComponents" />
+    </Feature>
+  </Package>
+</Wix>

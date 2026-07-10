@@ -1,0 +1,7 @@
+﻿{
+  "hydra.bg.core": "#020605",
+  "hydra.accent.primary": "#8DFFDC",
+  "hydra.text.primary": "#EAFFF8",
+  "hydra.state.warning": "#FFD36A",
+  "hydra.state.critical": "#FF5F6D"
+}

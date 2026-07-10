@@ -1,0 +1,50 @@
+<Window x:Class="Hydra.Desktop.App.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="HYDRA_HOME"
+        Width="960"
+        Height="540"
+        Background="{StaticResource HydraBackgroundBrush}">
+    <Grid Margin="24">
+        <Border BorderBrush="{StaticResource HydraAccentBrush}"
+                BorderThickness="1"
+                CornerRadius="12"
+                Padding="24">
+            <StackPanel>
+                <TextBlock Text="HYDRA_HOME"
+                           Foreground="{StaticResource HydraAccentBrush}"
+                           FontSize="28"
+                           FontWeight="Bold" />
+                <TextBlock Text="WPF Desktop / Tray Shell"
+                           Foreground="{StaticResource HydraTextBrush}"
+                           Margin="0,8,0,24" />
+
+                <TextBlock Text="Runtime ID"
+                           Foreground="{StaticResource HydraAccentBrush}" />
+                <TextBlock Text="{Binding RuntimeId}"
+                           Foreground="{StaticResource HydraTextBrush}"
+                           FontSize="18"
+                           Margin="0,4,0,16" />
+
+                <TextBlock Text="Health"
+                           Foreground="{StaticResource HydraAccentBrush}" />
+                <TextBlock Text="{Binding Health}"
+                           Foreground="{StaticResource HydraTextBrush}"
+                           FontSize="18"
+                           Margin="0,4,0,16" />
+
+                <TextBlock Text="Captured At"
+                           Foreground="{StaticResource HydraAccentBrush}" />
+                <TextBlock Text="{Binding CapturedAt}"
+                           Foreground="{StaticResource HydraTextBrush}"
+                           FontSize="18"
+                           Margin="0,4,0,24" />
+
+                <Button Content="Refresh runtime snapshot"
+                        Width="220"
+                        HorizontalAlignment="Left"
+                        Command="{Binding RefreshCommand}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

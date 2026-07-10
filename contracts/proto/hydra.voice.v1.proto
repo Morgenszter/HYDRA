@@ -1,0 +1,66 @@
+﻿syntax = "proto3";
+
+package hydra.voice.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Hydra.Contracts.Voice.V1";
+
+service HydraVoiceService {
+  rpc GetVoiceState(GetVoiceStateRequest) returns (VoiceState);
+  rpc StreamVoiceEvents(StreamVoiceEventsRequest) returns (stream VoiceEvent);
+  rpc SubmitTranscript(SubmitTranscriptRequest) returns (VoiceIntentResult);
+}
+
+message GetVoiceStateRequest {
+  string client_id = 1;
+}
+
+message StreamVoiceEventsRequest {
+  string client_id = 1;
+}
+
+message SubmitTranscriptRequest {
+  string transcript = 1;
+  string locale = 2;
+  google.protobuf.Timestamp captured_at = 3;
+}
+
+message VoiceState {
+  VoiceMode mode = 1;
+  string active_profile = 2;
+  string last_transcript = 3;
+  string last_intent = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message VoiceEvent {
+  string event_id = 1;
+  VoiceEventType event_type = 2;
+  string transcript = 3;
+  string intent = 4;
+  google.protobuf.Timestamp occurred_at = 5;
+}
+
+message VoiceIntentResult {
+  string intent = 1;
+  float confidence = 2;
+  bool accepted = 3;
+  string reason = 4;
+}
+
+enum VoiceMode {
+  VOICE_MODE_UNSPECIFIED = 0;
+  VOICE_MODE_DISABLED = 1;
+  VOICE_MODE_PASSIVE = 2;
+  VOICE_MODE_ARMED = 3;
+  VOICE_MODE_PROCESSING = 4;
+}
+
+enum VoiceEventType {
+  VOICE_EVENT_TYPE_UNSPECIFIED = 0;
+  VOICE_EVENT_TYPE_TRANSCRIPT = 1;
+  VOICE_EVENT_TYPE_INTENT = 2;
+  VOICE_EVENT_TYPE_ERROR = 3;
+  VOICE_EVENT_TYPE_STATE_CHANGED = 4;
+}

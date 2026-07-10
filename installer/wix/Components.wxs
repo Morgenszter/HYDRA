@@ -1,0 +1,46 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="InstallFolder" Name="HYDRA_HOME">
+        <Directory Id="BridgeFolder" Name="Bridge" />
+        <Directory Id="HydraDesktopFolder" Name="Desktop" />
+      </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="HYDRA_HOME" />
+    </StandardDirectory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="HydraApplicationComponents">
+      <Component Id="HydraBridgeExecutable" Directory="BridgeFolder" Guid="22222222-2222-4222-8222-222222222222">
+        <File Id="HydraBridgeExe" Source="..\..\artifacts\publish\bridge\Hydra.Bridge.Api.exe" KeyPath="yes" />
+      </Component>
+      <Component Id="HydraDesktopExecutable" Directory="HydraDesktopFolder" Guid="33333333-3333-4333-8333-333333333333">
+        <File Id="HydraDesktopExe" Source="..\..\artifacts\publish\desktop\Hydra.Desktop.App.exe" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="HydraShortcutComponents" Directory="ApplicationProgramsFolder">
+      <Component Id="HydraDesktopShortcutComponent" Guid="44444444-4444-4444-8444-444444444444">
+        <Shortcut Id="HydraDesktopShortcut"
+                  Name="HYDRA_HOME Desktop"
+                  Description="Open HYDRA_HOME desktop shell"
+                  Target="[HydraDesktopFolder]Hydra.Desktop.App.exe"
+                  WorkingDirectory="HydraDesktopFolder" />
+        <RemoveFolder Id="RemoveHydraProgramMenuFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\HYDRA_HOME" Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+      <Component Id="HydraBridgeShortcutComponent" Guid="55555555-5555-4555-8555-555555555555">
+        <Shortcut Id="HydraBridgeShortcut"
+                  Name="HYDRA_HOME Bridge"
+                  Description="Start HYDRA_HOME gRPC bridge"
+                  Target="[BridgeFolder]Hydra.Bridge.Api.exe"
+                  WorkingDirectory="BridgeFolder" />
+        <RegistryValue Root="HKCU" Key="Software\HYDRA_HOME" Name="BridgeShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

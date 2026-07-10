@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.28.2" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.66.0" PrivateAssets="All" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.runtime.v1.proto" ProtoRoot="..\..\..\..\contracts\proto" GrpcServices="Client" />
+    <ProjectReference Include="..\Hydra.Desktop.Core\Hydra.Desktop.Core.csproj" />
+  </ItemGroup>
+</Project>

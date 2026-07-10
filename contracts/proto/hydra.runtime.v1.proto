@@ -1,0 +1,74 @@
+﻿syntax = "proto3";
+
+package hydra.runtime.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Hydra.Contracts.Runtime.V1";
+
+service HydraRuntimeService {
+  rpc GetRuntimeSnapshot(GetRuntimeSnapshotRequest) returns (RuntimeSnapshot);
+  rpc StreamRuntimeEvents(StreamRuntimeEventsRequest) returns (stream RuntimeEvent);
+  rpc ExecuteCommand(ExecuteCommandRequest) returns (ExecuteCommandResponse);
+}
+
+message GetRuntimeSnapshotRequest {
+  string client_id = 1;
+}
+
+message StreamRuntimeEventsRequest {
+  string client_id = 1;
+  repeated string event_types = 2;
+}
+
+message ExecuteCommandRequest {
+  string command_id = 1;
+  map<string, string> arguments = 2;
+  google.protobuf.Timestamp requested_at = 3;
+}
+
+message ExecuteCommandResponse {
+  string command_id = 1;
+  CommandStatus status = 2;
+  string message = 3;
+  google.protobuf.Timestamp completed_at = 4;
+}
+
+message RuntimeSnapshot {
+  string runtime_id = 1;
+  RuntimeHealth health = 2;
+  repeated RuntimeSubsystem subsystems = 3;
+  google.protobuf.Timestamp captured_at = 4;
+}
+
+message RuntimeSubsystem {
+  string id = 1;
+  string display_name = 2;
+  RuntimeHealth health = 3;
+  map<string, string> attributes = 4;
+}
+
+message RuntimeEvent {
+  string event_id = 1;
+  string event_type = 2;
+  RuntimeHealth severity = 3;
+  string message = 4;
+  map<string, string> attributes = 5;
+  google.protobuf.Timestamp occurred_at = 6;
+}
+
+enum RuntimeHealth {
+  RUNTIME_HEALTH_UNSPECIFIED = 0;
+  RUNTIME_HEALTH_READY = 1;
+  RUNTIME_HEALTH_DEGRADED = 2;
+  RUNTIME_HEALTH_CRITICAL = 3;
+  RUNTIME_HEALTH_OFFLINE = 4;
+}
+
+enum CommandStatus {
+  COMMAND_STATUS_UNSPECIFIED = 0;
+  COMMAND_STATUS_ACCEPTED = 1;
+  COMMAND_STATUS_COMPLETED = 2;
+  COMMAND_STATUS_REJECTED = 3;
+  COMMAND_STATUS_FAILED = 4;
+}

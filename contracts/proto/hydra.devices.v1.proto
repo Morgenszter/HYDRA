@@ -1,0 +1,77 @@
+﻿syntax = "proto3";
+
+package hydra.devices.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Hydra.Contracts.Devices.V1";
+
+service HydraDeviceService {
+  rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse);
+  rpc StreamDeviceEvents(StreamDeviceEventsRequest) returns (stream DeviceEvent);
+  rpc SetDeviceState(SetDeviceStateRequest) returns (SetDeviceStateResponse);
+}
+
+message ListDevicesRequest {
+  string client_id = 1;
+  repeated DeviceKind kinds = 2;
+}
+
+message ListDevicesResponse {
+  repeated DeviceDescriptor devices = 1;
+  google.protobuf.Timestamp captured_at = 2;
+}
+
+message StreamDeviceEventsRequest {
+  string client_id = 1;
+  repeated string device_ids = 2;
+}
+
+message SetDeviceStateRequest {
+  string device_id = 1;
+  string capability = 2;
+  string value = 3;
+  google.protobuf.Timestamp requested_at = 4;
+}
+
+message SetDeviceStateResponse {
+  string device_id = 1;
+  bool accepted = 2;
+  string message = 3;
+  google.protobuf.Timestamp completed_at = 4;
+}
+
+message DeviceDescriptor {
+  string device_id = 1;
+  string display_name = 2;
+  DeviceKind kind = 3;
+  DeviceConnectionState connection_state = 4;
+  repeated string capabilities = 5;
+  map<string, string> attributes = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message DeviceEvent {
+  string event_id = 1;
+  string device_id = 2;
+  DeviceConnectionState connection_state = 3;
+  string message = 4;
+  google.protobuf.Timestamp occurred_at = 5;
+}
+
+enum DeviceKind {
+  DEVICE_KIND_UNSPECIFIED = 0;
+  DEVICE_KIND_LIGHT = 1;
+  DEVICE_KIND_SENSOR = 2;
+  DEVICE_KIND_LOCK = 3;
+  DEVICE_KIND_THERMOSTAT = 4;
+  DEVICE_KIND_BRIDGE = 5;
+}
+
+enum DeviceConnectionState {
+  DEVICE_CONNECTION_STATE_UNSPECIFIED = 0;
+  DEVICE_CONNECTION_STATE_ONLINE = 1;
+  DEVICE_CONNECTION_STATE_OFFLINE = 2;
+  DEVICE_CONNECTION_STATE_DEGRADED = 3;
+  DEVICE_CONNECTION_STATE_PAIRING = 4;
+}

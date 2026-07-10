@@ -1,0 +1,9 @@
+<Application x:Class="Hydra.Desktop.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="HydraBackgroundBrush" Color="#020605" />
+        <SolidColorBrush x:Key="HydraAccentBrush" Color="#8DFFDC" />
+        <SolidColorBrush x:Key="HydraTextBrush" Color="#EAFFF8" />
+    </Application.Resources>
+</Application>
