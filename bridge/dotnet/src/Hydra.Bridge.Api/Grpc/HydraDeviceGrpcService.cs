@@ -1,4 +1,4 @@
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Hydra.Bridge.Application.Devices;
 using Hydra.Contracts.Devices.V1;
@@ -80,7 +80,10 @@ public sealed class HydraDeviceGrpcService(
         };
 
         response.Capabilities.AddRange(model.Capabilities);
-        response.Attributes.Add(model.Attributes);
+        foreach (var attribute in model.Attributes)
+        {
+            response.Attributes.Add(attribute.Key, attribute.Value);
+        }
 
         return response;
     }

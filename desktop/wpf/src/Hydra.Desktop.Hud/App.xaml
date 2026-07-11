@@ -1,37 +1,149 @@
-<Application x:Class="Hydra.Desktop.Hud.App"
+﻿<Application x:Class="Hydra.Desktop.Hud.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Application.Resources>
-    <SolidColorBrush x:Key="Bg" Color="#050A0C"/>
-    <SolidColorBrush x:Key="Panel" Color="#0A171A"/>
-    <SolidColorBrush x:Key="Panel2" Color="#0D2024"/>
-    <SolidColorBrush x:Key="Accent" Color="#00FFD5"/>
-    <SolidColorBrush x:Key="AccentDim" Color="#2AB9A3"/>
-    <SolidColorBrush x:Key="Text" Color="#DDFCF7"/>
-    <SolidColorBrush x:Key="Muted" Color="#789B98"/>
+    <!-- HYDRA Design Tokens v1 -->
+    <Color x:Key="HydraBgCore">#020605</Color>
+    <Color x:Key="HydraBgPanel">#081614</Color>
+    <Color x:Key="HydraBgPanel2">#0D2024</Color>
+    <Color x:Key="HydraAccentPrimary">#8DFFDC</Color>
+    <Color x:Key="HydraAccentDim">#2AB9A3</Color>
+    <Color x:Key="HydraTextPrimary">#EAFFF8</Color>
+    <Color x:Key="HydraTextMuted">#789B98</Color>
+    <Color x:Key="HydraWarning">#FFD36A</Color>
+    <Color x:Key="HydraCritical">#FF5F6D</Color>
+
+    <SolidColorBrush x:Key="BgCoreBrush" Color="{StaticResource HydraBgCore}"/>
+    <SolidColorBrush x:Key="BgPanelBrush" Color="{StaticResource HydraBgPanel}"/>
+    <SolidColorBrush x:Key="BgPanel2Brush" Color="{StaticResource HydraBgPanel2}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource HydraAccentPrimary}"/>
+    <SolidColorBrush x:Key="AccentDimBrush" Color="{StaticResource HydraAccentDim}"/>
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource HydraTextPrimary}"/>
+    <SolidColorBrush x:Key="MutedBrush" Color="{StaticResource HydraTextMuted}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource HydraWarning}"/>
+    <SolidColorBrush x:Key="CriticalBrush" Color="{StaticResource HydraCritical}"/>
+
+    <!-- Tactical accent glow -->
+    <DropShadowEffect x:Key="AccentGlow" ShadowDepth="0" BlurRadius="12" Color="{StaticResource HydraAccentPrimary}" Opacity="0.45"/>
+    <DropShadowEffect x:Key="TextGlow" ShadowDepth="0" BlurRadius="8" Color="{StaticResource HydraAccentPrimary}" Opacity="0.35"/>
+    <DropShadowEffect x:Key="CriticalGlow" ShadowDepth="0" BlurRadius="10" Color="{StaticResource HydraCritical}" Opacity="0.55"/>
+
+    <FontFamily x:Key="HudFont">Segoe UI, Calibri, Consolas</FontFamily>
+    <FontFamily x:Key="MonoFont">Consolas, Courier New</FontFamily>
 
     <Style TargetType="Window">
-      <Setter Property="Background" Value="{StaticResource Bg}"/>
-      <Setter Property="Foreground" Value="{StaticResource Text}"/>
-      <Setter Property="FontFamily" Value="Consolas"/>
+      <Setter Property="Background" Value="{StaticResource BgCoreBrush}"/>
+      <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+      <Setter Property="FontFamily" Value="{StaticResource HudFont}"/>
+      <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+    </Style>
+
+    <Style x:Key="HydraPanel" TargetType="Border">
+      <Setter Property="Background" Value="{StaticResource BgPanelBrush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource AccentDimBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="4"/>
+      <Setter Property="Padding" Value="14"/>
+      <Setter Property="Margin" Value="0,0,0,12"/>
+    </Style>
+
+    <Style x:Key="HydraPanelAccent" TargetType="Border" BasedOn="{StaticResource HydraPanel}">
+      <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+      <Setter Property="Effect" Value="{StaticResource AccentGlow}"/>
+    </Style>
+
+    <Style x:Key="HudTitle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+      <Setter Property="Effect" Value="{StaticResource TextGlow}"/>
+      <Setter Property="Margin" Value="0,0,0,10"/>
+    </Style>
+
+    <Style x:Key="HudHeader" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="28"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+      <Setter Property="Effect" Value="{StaticResource AccentGlow}"/>
+    </Style>
+
+    <Style x:Key="HudLabel" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="11"/>
+      <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+          </Style>
+
+    <Style x:Key="HudValue" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="18"/>
+      <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
     </Style>
 
     <Style TargetType="Button">
-      <Setter Property="Foreground" Value="{StaticResource Text}"/>
-      <Setter Property="Background" Value="{StaticResource Panel2}"/>
-      <Setter Property="BorderBrush" Value="{StaticResource AccentDim}"/>
+      <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+      <Setter Property="Background" Value="{StaticResource BgPanel2Brush}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource AccentDimBrush}"/>
       <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="Padding" Value="12,8"/>
+      <Setter Property="Padding" Value="16,10"/>
       <Setter Property="Margin" Value="0,0,0,8"/>
       <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    CornerRadius="4"
+                    Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="Background" Value="{StaticResource AccentDimBrush}"/>
+          <Setter Property="Foreground" Value="{StaticResource HydraBgCore}"/>
+          <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+          <Setter Property="Effect" Value="{StaticResource AccentGlow}"/>
+        </Trigger>
+      </Style.Triggers>
     </Style>
 
     <Style TargetType="TextBox">
-      <Setter Property="Foreground" Value="{StaticResource Text}"/>
-      <Setter Property="Background" Value="#071316"/>
-      <Setter Property="BorderBrush" Value="{StaticResource AccentDim}"/>
-      <Setter Property="CaretBrush" Value="{StaticResource Accent}"/>
-      <Setter Property="Padding" Value="10,8"/>
+      <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+      <Setter Property="Background" Value="{StaticResource HydraBgCore}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource AccentDimBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CaretBrush" Value="{StaticResource AccentBrush}"/>
+      <Setter Property="Padding" Value="12,10"/>
+      <Setter Property="FontFamily" Value="{StaticResource MonoFont}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="ListBox">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+      <Setter Property="FontFamily" Value="{StaticResource MonoFont}"/>
+      <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style TargetType="ItemsControl">
+      <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+    </Style>
+
+    <Style x:Key="ModuleOnline" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+    </Style>
+    <Style x:Key="ModuleOffline" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+    </Style>
+    <Style x:Key="ModuleWarning" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource WarningBrush}"/>
+    </Style>
+    <Style x:Key="ModuleCritical" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource CriticalBrush}"/>
     </Style>
   </Application.Resources>
 </Application>

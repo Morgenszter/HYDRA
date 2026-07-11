@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using Hydra.Desktop.Hud.Services;
 using Hydra.Desktop.Hud.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,8 +13,8 @@ public partial class App : Application
         {
             services.AddHttpClient<HydraRuntimeClient>(client =>
             {
-                client.BaseAddress = new Uri("http://127.0.0.1:5075");
-                client.Timeout = TimeSpan.FromSeconds(3);
+                client.BaseAddress = new Uri("http://127.0.0.1:5000");
+                client.Timeout = TimeSpan.FromSeconds(5);
             });
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<MainWindow>();
