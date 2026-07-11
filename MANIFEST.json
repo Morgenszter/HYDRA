@@ -1,0 +1,162 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 811,
+    "sha256": "bf2bb937b1c8ee3182a957c082a53d81c9c4ff88137a2e5a38b681f1289dd0a4"
+  },
+  {
+    "path": "bridge/dotnet/Hydra.Bridge.slnx",
+    "bytes": 301,
+    "sha256": "757545d9b117783810b185dda4f9eef8f233148e66dbabbd0ec54780f783f59a"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/Grpc/HydraAiGrpcService.cs",
+    "bytes": 2760,
+    "sha256": "5d81bc865b1bbf7efa3232e5b3d8ffb01e5492a9124ede92d4262298216e8dc6"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/Grpc/HydraDeviceGrpcService.cs",
+    "bytes": 4187,
+    "sha256": "a077bc70bca72e68406b4d35dd9e820a88beed72283ac0fca7fb1bafb0084e88"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/Grpc/HydraRuntimeGrpcService.cs",
+    "bytes": 3639,
+    "sha256": "ab672511ed17135d16459b7e2da9412670fe62a7f11b5fb6a690fbea4d0d637a"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/Grpc/HydraVoiceGrpcService.cs",
+    "bytes": 2818,
+    "sha256": "69c267d57f8525ee799787b010c9e49d58133c290e4b50d3851bed66c04f4762"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/Hydra.Bridge.Api.csproj",
+    "bytes": 1449,
+    "sha256": "d4452056169bcc5ecd5dfe902fc4bf22cc217f82df462d4333b6319f0eab51e9"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/Program.cs",
+    "bytes": 886,
+    "sha256": "457b343b7efa882a699a0f94baf3041e938dfa451651b9d331d9833e3467ca79"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/Properties/launchSettings.json",
+    "bytes": 352,
+    "sha256": "ee442ff51f1ff6f708641f01477a3679e1a3e057b791deca49cefa5596d75baf"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/appsettings.AI.json",
+    "bytes": 342,
+    "sha256": "b5631008ca019bf8a9155aaf1061f271b07ad34fbd21ad992f8f306b4a4a4fb9"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Api/appsettings.json",
+    "bytes": 171,
+    "sha256": "75108aaac1a6d08affc3200516ded67b57f2828fde2f292a479d78bc9cf23bff"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/AI/AiModels.cs",
+    "bytes": 546,
+    "sha256": "f1aa7011973ce1a9a05242276d6fb1b99e6465daa2a5cc3a15bc07a6926bf42c"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/AI/IModelRouter.cs",
+    "bytes": 311,
+    "sha256": "fa4cd001472d8f23a18ae6b0c9050fb7d8d415f114320667494a0f5a0522b324"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/Devices/DeviceModels.cs",
+    "bytes": 871,
+    "sha256": "f090a48cb7cba5abbdbfc37bb02a463464bf56001b715dc15a3346615b2eafa7"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/Devices/IHydraDeviceRepository.cs",
+    "bytes": 640,
+    "sha256": "01f0dad154aefa451b98732faa852c7240a8fd969096e8bee850ef7e1fa39357"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/Hydra.Bridge.Application.csproj",
+    "bytes": 240,
+    "sha256": "879b2e79836bbaf49fe9e26389bb02331dd97749def3dd291472719e889acb84"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/Runtime/IHydraRuntimeRepository.cs",
+    "bytes": 595,
+    "sha256": "9ba89094cec06de0472aa692aa82bec4212f26bbba05926cc6ecda3392cb90bd"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/Runtime/RuntimeModels.cs",
+    "bytes": 856,
+    "sha256": "28b748d29655b5058436cc98a0a72242f0a582283b3951c360d278db9d0e52f4"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/Voice/IHydraVoiceRepository.cs",
+    "bytes": 505,
+    "sha256": "13f33c4c7d6bc25464a5bb7130eaea8ba785b3ebf20c3f81e6c885551f2c3246"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Application/Voice/VoiceModels.cs",
+    "bytes": 719,
+    "sha256": "3ec1e33cc58339d9ad92b32aed3cc742164b466d7cbfa77cd93d0a6162518fdd"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/AI/HybridModelRouter.cs",
+    "bytes": 1258,
+    "sha256": "e140bc1e9012e83e15e5e5c6e782a37d1af546ac40ccd89318ed8684b8cbbb78"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/AI/HydraAiOptions.cs",
+    "bytes": 804,
+    "sha256": "61d6c6094d6aaecba05e588b7ec535de63bc8dbcb394841b30ab9ce42c2ba5ec"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/AI/OllamaResponsesGateway.cs",
+    "bytes": 2406,
+    "sha256": "ce3e497e5c7b510acee969a64f0b9671e87bc28e82a6bf78e7a0e179aa816d6d"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/DependencyInjection.cs",
+    "bytes": 1959,
+    "sha256": "55202b3f095c4cac41050365aae6b6e23386248b2ea420ef6fdad97a262c271c"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/Devices/InMemoryHydraDeviceRepository.cs",
+    "bytes": 5181,
+    "sha256": "d1f5266754cab18b1ac972d58534a5de6dfcb9db7600e6a2a085582c84302901"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/Hydra.Bridge.Infrastructure.csproj",
+    "bytes": 574,
+    "sha256": "dafe21c61629dbb56fea5ab6fee1f8209695043d6b979696b44e5730522418fe"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/Runtime/InMemoryHydraRuntimeRepository.cs",
+    "bytes": 3025,
+    "sha256": "0dbd0fa9e3f8b849ac5593956e78ea2352a640e9ec18801f06d081c9bfbb35c6"
+  },
+  {
+    "path": "bridge/dotnet/src/Hydra.Bridge.Infrastructure/Voice/InMemoryHydraVoiceRepository.cs",
+    "bytes": 2895,
+    "sha256": "f25989ec342a1a1f284ce5c37e476992ca83c5bbc7f7effa05d3637bb3bd979e"
+  },
+  {
+    "path": "contracts/proto/hydra.ai.v1.proto",
+    "bytes": 876,
+    "sha256": "578020bd9adc2016a2d2dfdfdb02fdea3eabd0c7f9c27f8ca3b4f908bd9d1bb5"
+  },
+  {
+    "path": "contracts/proto/hydra.devices.v1.proto",
+    "bytes": 1878,
+    "sha256": "866f7df7817e084713994e03b8da6c9a112961cc1dea08297c763971981f5f9f"
+  },
+  {
+    "path": "contracts/proto/hydra.runtime.v1.proto",
+    "bytes": 1760,
+    "sha256": "cbe9141b56837c575564b99986e327dc19f1837f763c2673030bff8947bec345"
+  },
+  {
+    "path": "contracts/proto/hydra.voice.v1.proto",
+    "bytes": 1451,
+    "sha256": "00d0c1418e8bba5d1b6672f549543e8166d8773b769ea2be0fd9ef43f656e26e"
+  }
+]

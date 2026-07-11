@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Hydra.Bridge.Api/Hydra.Bridge.Api.csproj" />
+    <Project Path="src/Hydra.Bridge.Application/Hydra.Bridge.Application.csproj" />
+    <Project Path="src/Hydra.Bridge.Infrastructure/Hydra.Bridge.Infrastructure.csproj" />
+  </Folder>
+</Solution>

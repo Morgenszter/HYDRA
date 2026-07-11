@@ -1,4 +1,4 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package hydra.runtime.v1;
 
@@ -12,9 +12,7 @@ service HydraRuntimeService {
   rpc ExecuteCommand(ExecuteCommandRequest) returns (ExecuteCommandResponse);
 }
 
-message GetRuntimeSnapshotRequest {
-  string client_id = 1;
-}
+message GetRuntimeSnapshotRequest { string client_id = 1; }
 
 message StreamRuntimeEventsRequest {
   string client_id = 1;

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package hydra.ai.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Hydra.Contracts.AI.V1";
+
+service HydraAiService {
+  rpc Generate(GenerateRequest) returns (GenerateResponse);
+  rpc StreamGenerate(GenerateRequest) returns (stream GenerateChunk);
+  rpc ListModels(ListModelsRequest) returns (ListModelsResponse);
+  rpc GetProviderHealth(GetProviderHealthRequest) returns (GetProviderHealthResponse);
+}
+
+enum ModelProvider {
+  MODEL_PROVIDER_UNSPECIFIED = 0;
+  MODEL_PROVIDER_AUTO = 1;
+  MODEL_PROVIDER_OLLAMA = 2;
+  MODEL_PROVIDER_OPENAI = 3;
+}
+
+enum RoutingPolicy {
+  ROUTING_POLICY_UNSPECIFIED = 0;
+  ROUTING_POLICY_LOCAL_ONLY = 1;
+  ROUTING_POLICY_CLOUD_ONLY = 2;
+  ROUTING_POLICY_LOCAL_FIRST = 3;
+  ROUTING_POLICY_CLOUD_FIRST = 4;
+  ROUTING_POLICY_CLASSIFIED = 5;
+}
+
+enum DataClassification {
+  DATA_CLASSIFICATION_UNSPECIFIED = 0;
+  DATA_CLASSIFICATION_PUBLIC = 1;
+  DATA_CLASSIFICATION_INTERNAL = 2;
+  DATA_CLASSIFICATION_PRIVATE_LOCAL = 3;
+  DATA_CLASSIFICATION_SECRET = 4;
+}
+
+message GenerateRequest {
+  string request_id = 1;
+  string client_id = 2;
+  string input = 3;
+  string instructions = 4;
+  ModelProvider provider = 5;
+  RoutingPolicy routing_policy = 6;
+  DataClassification classification = 7;
+  string model = 8;
+  repeated ToolDefinition tools = 9;
+  map<string, string> metadata = 10;
+}
+
+message GenerateResponse {
+  string request_id = 1;
+  string response_id = 2;
+  ModelProvider provider = 3;
+  string model = 4;
+  string output_text = 5;
+  repeated ToolCall tool_calls = 6;
+  google.protobuf.Timestamp completed_at = 7;
+}
+
+message GenerateChunk {
+  string request_id = 1;
+  string response_id = 2;
+  string delta = 3;
+  bool completed = 4;
+  ModelProvider provider = 5;
+}
+
+message ToolDefinition {
+  string name = 1;
+  string description = 2;
+  string input_json_schema = 3;
+  bool requires_approval = 4;
+}
+
+message ToolCall {
+  string call_id = 1;
+  string name = 2;
+  string arguments_json = 3;
+  bool requires_approval = 4;
+}
+
+message ListModelsRequest { ModelProvider provider = 1; }
+message ListModelsResponse { repeated ModelDescriptor models = 1; }
+message ModelDescriptor {
+  string id = 1;
+  ModelProvider provider = 2;
+  repeated string capabilities = 3;
+}
+message GetProviderHealthRequest { ModelProvider provider = 1; }
+message GetProviderHealthResponse {
+  ModelProvider provider = 1;
+  bool available = 2;
+  string message = 3;
+  google.protobuf.Timestamp checked_at = 4;
+}

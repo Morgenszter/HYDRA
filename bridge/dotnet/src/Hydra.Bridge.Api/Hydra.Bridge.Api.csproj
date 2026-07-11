@@ -1,16 +1,35 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>12.0</LangVersion>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.66.0" />
-    <Protobuf Include="..\..\..\..\contracts\proto\hydra.runtime.v1.proto" ProtoRoot="..\..\..\..\contracts\proto" GrpcServices="Server" />
-    <Protobuf Include="..\..\..\..\contracts\proto\hydra.voice.v1.proto" ProtoRoot="..\..\..\..\contracts\proto" GrpcServices="Server" />
-    <Protobuf Include="..\..\..\..\contracts\proto\hydra.devices.v1.proto" ProtoRoot="..\..\..\..\contracts\proto" GrpcServices="Server" />
+    <PackageReference Include="Google.Protobuf" Version="3.28.2" />
+    <PackageReference Include="Grpc.Tools" Version="2.66.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Hydra.Bridge.Application\Hydra.Bridge.Application.csproj" />
     <ProjectReference Include="..\Hydra.Bridge.Infrastructure\Hydra.Bridge.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.runtime.v1.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.devices.v1.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.voice.v1.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.ai.v1.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.AI.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

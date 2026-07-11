@@ -16,8 +16,14 @@
       <Component Id="HydraBridgeExecutable" Directory="BridgeFolder" Guid="22222222-2222-4222-8222-222222222222">
         <File Id="HydraBridgeExe" Source="..\..\artifacts\publish\bridge\Hydra.Bridge.Api.exe" KeyPath="yes" />
       </Component>
+      <Component Id="HydraBridgeConfiguration" Directory="BridgeFolder" Guid="77777777-7777-4777-8777-777777777777">
+        <File Id="HydraBridgeAppSettings" Source="..\..\artifacts\publish\bridge\appsettings.json" KeyPath="yes" />
+      </Component>
       <Component Id="HydraDesktopExecutable" Directory="HydraDesktopFolder" Guid="33333333-3333-4333-8333-333333333333">
         <File Id="HydraDesktopExe" Source="..\..\artifacts\publish\desktop\Hydra.Desktop.App.exe" KeyPath="yes" />
+      </Component>
+      <Component Id="HydraDesktopConfiguration" Directory="HydraDesktopFolder" Guid="66666666-6666-4666-8666-666666666666">
+        <File Id="HydraDesktopAppSettings" Source="..\..\artifacts\publish\desktop\appsettings.json" KeyPath="yes" />
       </Component>
     </ComponentGroup>
   </Fragment>

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package hydra.ai.v1;
+
+option csharp_namespace = "Hydra.Contracts.AI.V1";
+
+service HydraAiService {
+  rpc Generate(GenerateRequest) returns (GenerateResponse);
+  rpc GetProviderStatus(GetProviderStatusRequest) returns (GetProviderStatusResponse);
+}
+
+message GenerateRequest {
+  string input = 1;
+  string conversation_id = 2;
+  AiTaskType task_type = 3;
+  bool allow_cloud_fallback = 4;
+}
+
+message GenerateResponse {
+  string output = 1;
+  string provider = 2;
+  string model = 3;
+  int64 latency_ms = 4;
+}
+
+message GetProviderStatusRequest {}
+
+message GetProviderStatusResponse {
+  bool ollama_available = 1;
+  string ollama_model = 2;
+  bool cloud_enabled = 3;
+}
+
+enum AiTaskType {
+  AI_TASK_TYPE_UNSPECIFIED = 0;
+  AI_TASK_TYPE_GENERAL_CHAT = 1;
+  AI_TASK_TYPE_VOICE_INTENT = 2;
+  AI_TASK_TYPE_DEVICE_CONTROL = 3;
+  AI_TASK_TYPE_CODE_ARCHITECTURE = 4;
+}

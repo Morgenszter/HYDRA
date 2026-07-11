@@ -1,0 +1,15 @@
+Add these lines to Hydra.Bridge.Api/Program.cs:
+
+using Hydra.Bridge.Api.Grpc;
+using Hydra.Bridge.Infrastructure.AI;
+
+builder.Configuration.AddJsonFile(
+    "appsettings.AI.json",
+    optional: false,
+    reloadOnChange: true);
+
+builder.Services.AddHydraAi(builder.Configuration);
+
+After app creation:
+
+app.MapGrpcService<HydraAiGrpcService>();
