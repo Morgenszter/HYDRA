@@ -1,4 +1,4 @@
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Hydra.Bridge.Application.Runtime;
 using Hydra.Contracts.Runtime.V1;
@@ -82,7 +82,10 @@ public sealed class HydraRuntimeGrpcService(
                         Health = Map(subsystem.Health)
                     };
 
-                    mapped.Attributes.Add(subsystem.Attributes);
+                    foreach (var attribute in subsystem.Attributes)
+                    {
+                        mapped.Attributes.Add(attribute.Key, attribute.Value);
+                    }
                     return mapped;
                 }));
 
@@ -100,7 +103,10 @@ public sealed class HydraRuntimeGrpcService(
             OccurredAt = Timestamp.FromDateTimeOffset(model.OccurredAt)
         };
 
-        response.Attributes.Add(model.Attributes);
+        foreach (var attribute in model.Attributes)
+        {
+            response.Attributes.Add(attribute.Key, attribute.Value);
+        }
         return response;
     }
 

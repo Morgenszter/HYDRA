@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -21,10 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.runtime.v1.proto" GrpcServices="Server" />
-    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.devices.v1.proto" GrpcServices="Server" />
-    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.voice.v1.proto" GrpcServices="Server" />
-    <Protobuf Include="..\..\..\..\..\contracts\proto\hydra.ai.v1.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.runtime.v1.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.devices.v1.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.voice.v1.proto" GrpcServices="Server" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.ai.v1.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
