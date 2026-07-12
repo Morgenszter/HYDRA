@@ -1,7 +1,17 @@
+using Hydra.Bridge.Api.Endpoints;
 using Hydra.Bridge.Api.Grpc;
 using Hydra.Bridge.Infrastructure;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(
+    options =>
+    {
+        options.ListenLocalhost(
+            5000,
+            listenOptions => listenOptions.Protocols = HttpProtocols.Http1AndHttp2);
+    });
 
 builder.Configuration.AddJsonFile(
     "appsettings.AI.json",
@@ -17,6 +27,8 @@ app.MapGrpcService<HydraRuntimeGrpcService>();
 app.MapGrpcService<HydraDeviceGrpcService>();
 app.MapGrpcService<HydraVoiceGrpcService>();
 app.MapGrpcService<HydraAiGrpcService>();
+
+app.MapHydraHudEndpoints();
 
 app.MapGet(
     "/",
