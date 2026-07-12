@@ -13,6 +13,7 @@ public partial class MainViewModel : ObservableObject
     public ObservableCollection<ModuleStatus> Modules { get; } = [];
     public ObservableCollection<string> Logs { get; } = [];
     public ObservableCollection<string> Conversation { get; } = [];
+    public ObservableCollection<string> DeviceLines { get; } = [];
 
     [ObservableProperty]
     private string commandText = string.Empty;
@@ -28,6 +29,18 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private string currentTime = DateTime.Now.ToString("HH:mm:ss");
+
+    [ObservableProperty]
+    private string wakeWord = "OMEGON";
+
+    [ObservableProperty]
+    private string smartHomeSummary = "0/0 devices online";
+
+    [ObservableProperty]
+    private string lastTranscript = string.Empty;
+
+    [ObservableProperty]
+    private string lastIntent = string.Empty;
 
     public MainViewModel(HydraRuntimeClient runtimeClient)
     {
@@ -52,26 +65,34 @@ public partial class MainViewModel : ObservableObject
     private async Task RefreshAsync()
     {
         RuntimeState = "SCANNING";
-        IReadOnlyList<ModuleStatus> modules;
 
         try
         {
-            modules = await _runtimeClient.GetModulesAsync();
+            var overview = await _runtimeClient.GetOverviewAsync();
+
+            Modules.Clear();
+            foreach (var module in overview.Modules)
+                Modules.Add(module);
+
+            DeviceLines.Clear();
+            foreach (var deviceLine in overview.DeviceLines)
+                DeviceLines.Add(deviceLine);
+
+            RuntimeState = overview.RuntimeState;
+            VoiceState = overview.VoiceState;
+            AiProvider = overview.AiProvider;
+            WakeWord = overview.WakeWord;
+            SmartHomeSummary = overview.SmartHomeSummary;
+            LastTranscript = overview.LastTranscript;
+            LastIntent = overview.LastIntent;
         }
         catch (Exception ex)
         {
-            modules = CreateDegradedModules(ex.Message);
+            Modules.Clear();
+            foreach (var module in CreateDegradedModules(ex.Message))
+                Modules.Add(module);
+            DeviceLines.Clear();
         }
-
-        Modules.Clear();
-        foreach (var module in modules)
-            Modules.Add(module);
-
-        RuntimeState = modules.Any(m => m.Name == "BRIDGE" && m.Online)
-            ? "ONLINE"
-            : "DEGRADED";
-
-        AiProvider = modules.FirstOrDefault(m => m.Name == "AI")?.Detail ?? "NOT SELECTED";
 
         var timestamp = DateTime.Now.ToString("HH:mm:ss");
         Logs.Insert(0, $"[{timestamp}] Runtime scan complete: {RuntimeState}.");
@@ -95,11 +116,11 @@ public partial class MainViewModel : ObservableObject
                 Conversation.Add($"HYDRA: Runtime state is {RuntimeState}.");
                 break;
             case "voice on":
-                VoiceState = "LISTENING";
-                Conversation.Add("HYDRA: Voice subsystem armed. Wake word: OMEGON.");
+                VoiceState = "ARMED";
+                Conversation.Add($"HYDRA: Voice subsystem armed. Wake word: {WakeWord}.");
                 break;
             case "voice off":
-                VoiceState = "STANDBY";
+                VoiceState = "PASSIVE";
                 Conversation.Add("HYDRA: Voice subsystem suspended.");
                 break;
             case "help":
@@ -107,7 +128,10 @@ public partial class MainViewModel : ObservableObject
                 break;
             case "devices":
                 await RefreshAsync();
-                Conversation.Add("HYDRA: Smart home device bindings are pending.");
+                Conversation.Add(
+                    DeviceLines.Count == 0
+                        ? "HYDRA: No devices reported by bridge."
+                        : $"HYDRA: Devices online -> {string.Join(" | ", DeviceLines.Take(3))}");
                 break;
             case "scenes":
                 Conversation.Add("HYDRA: Scene engine standby. No active automations.");
@@ -116,7 +140,22 @@ public partial class MainViewModel : ObservableObject
                 ClearLogs();
                 break;
             default:
-                Conversation.Add("HYDRA: Command queued for AI/automation routing.");
+                var runtimeResult = await _runtimeClient.ExecuteRuntimeCommandAsync(command);
+                Conversation.Add(
+                    runtimeResult.Accepted
+                        ? $"HYDRA: Runtime command {runtimeResult.CommandId} => {runtimeResult.Status} :: {runtimeResult.Message}"
+                        : $"HYDRA: Runtime command failed => {runtimeResult.Status} :: {runtimeResult.Message}");
+
+                if (!runtimeResult.Accepted)
+                {
+                    var intentResult = await _runtimeClient.SubmitTranscriptAsync(command);
+                    Conversation.Add(
+                        intentResult.Accepted
+                            ? $"HYDRA: Intent={intentResult.Intent} :: {intentResult.Message}"
+                            : $"HYDRA: Transcript rejected :: {intentResult.Message}");
+                }
+
+                await RefreshAsync();
                 break;
         }
 
@@ -128,6 +167,8 @@ public partial class MainViewModel : ObservableObject
     {
         Logs.Clear();
         Logs.Add("[LOG] Buffer cleared.");
+        Conversation.Clear();
+        Conversation.Add("HYDRA: Command interface online.");
     }
 
     [RelayCommand]
@@ -140,7 +181,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task WheelVoiceAsync()
     {
-        CommandText = VoiceState == "LISTENING" ? "voice off" : "voice on";
+        CommandText = VoiceState == "ARMED" ? "voice off" : "voice on";
         await ExecuteCommandAsync();
     }
 
