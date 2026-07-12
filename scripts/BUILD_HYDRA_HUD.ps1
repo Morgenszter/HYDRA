@@ -20,7 +20,7 @@ Remove-Item $Publish -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item $Zip -Force -ErrorAction SilentlyContinue
 New-Item $Publish -ItemType Directory -Force | Out-Null
 
-dotnet restore $Project
+dotnet restore $Project -r win-x64
 if ($LASTEXITCODE -ne 0) { throw "HUD restore failed." }
 
 dotnet publish $Project `
