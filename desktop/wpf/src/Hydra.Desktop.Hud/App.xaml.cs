@@ -1,6 +1,10 @@
 ﻿using System.Windows;
 using Hydra.Desktop.Hud.Services;
 using Hydra.Desktop.Hud.ViewModels;
+using Hydra.Contracts.AI.V1;
+using Hydra.Contracts.Devices.V1;
+using Hydra.Contracts.Runtime.V1;
+using Hydra.Contracts.Voice.V1;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -16,6 +20,10 @@ public partial class App : Application
                 client.BaseAddress = new Uri("http://127.0.0.1:5000");
                 client.Timeout = TimeSpan.FromSeconds(5);
             });
+            services.AddGrpcClient<HydraRuntimeService.HydraRuntimeServiceClient>(options => options.Address = new Uri("http://127.0.0.1:5000"));
+            services.AddGrpcClient<HydraDeviceService.HydraDeviceServiceClient>(options => options.Address = new Uri("http://127.0.0.1:5000"));
+            services.AddGrpcClient<HydraVoiceService.HydraVoiceServiceClient>(options => options.Address = new Uri("http://127.0.0.1:5000"));
+            services.AddGrpcClient<HydraAiService.HydraAiServiceClient>(options => options.Address = new Uri("http://127.0.0.1:5000"));
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<MainWindow>();
         })

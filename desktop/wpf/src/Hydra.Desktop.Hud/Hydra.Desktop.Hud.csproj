@@ -11,8 +11,21 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.28.2" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.66.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.66.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.runtime.v1.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.devices.v1.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.voice.v1.proto" GrpcServices="Client" />
+    <Protobuf Include="..\..\..\..\contracts\proto\hydra.ai.v1.proto" GrpcServices="Client" />
   </ItemGroup>
 </Project>
