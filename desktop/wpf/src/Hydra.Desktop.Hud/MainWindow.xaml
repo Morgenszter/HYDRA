@@ -188,7 +188,11 @@
                 <TextBlock.Style>
                   <Style TargetType="TextBlock" BasedOn="{StaticResource HudValue}">
                     <Style.Triggers>
-                      <DataTrigger Binding="{Binding VoiceState}" Value="LISTENING">
+                      <DataTrigger Binding="{Binding VoiceState}" Value="ARMED">
+                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                        <Setter Property="Effect" Value="{StaticResource AccentGlow}"/>
+                      </DataTrigger>
+                      <DataTrigger Binding="{Binding VoiceState}" Value="PROCESSING">
                         <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
                         <Setter Property="Effect" Value="{StaticResource AccentGlow}"/>
                       </DataTrigger>
@@ -196,10 +200,11 @@
                   </Style>
                 </TextBlock.Style>
               </TextBlock>
-              <TextBlock Text="Wake word: OMEGON" FontSize="12"/>
+              <TextBlock Text="{Binding WakeWord, StringFormat=Wake word: {0}}" FontSize="12"/>
               <TextBlock Text="STT: Whisper" Foreground="{StaticResource MutedBrush}" FontSize="12"/>
               <TextBlock Text="TTS: HYDRA Voice" Foreground="{StaticResource MutedBrush}" FontSize="12"/>
-              <TextBlock Text="DSP: Tactical profile" Foreground="{StaticResource MutedBrush}" FontSize="12"/>
+              <TextBlock Text="{Binding LastIntent, StringFormat=Last intent: {0}}" Foreground="{StaticResource MutedBrush}" FontSize="12"/>
+              <TextBlock Text="{Binding LastTranscript, StringFormat=Last transcript: {0}}" Foreground="{StaticResource MutedBrush}" FontSize="12" TextWrapping="Wrap"/>
             </StackPanel>
           </Border>
 
@@ -216,12 +221,14 @@
           <Border Style="{StaticResource HydraPanel}">
             <StackPanel>
               <TextBlock Text="SMART HOME" Style="{StaticResource HudTitle}"/>
-              <TextBlock Text="MQTT" FontSize="12" Margin="0,0,0,4"/>
-              <TextBlock Text="TUYA" FontSize="12" Margin="0,0,0,4"/>
-              <TextBlock Text="TAPO" FontSize="12" Margin="0,0,0,4"/>
-              <TextBlock Text="BLE" FontSize="12" Margin="0,0,0,4"/>
-              <TextBlock Text="HOME ASSISTANT" FontSize="12" Margin="0,0,0,10"/>
-              <TextBlock Text="Device bindings pending" Foreground="{StaticResource MutedBrush}" FontSize="11" FontStyle="Italic"/>
+              <TextBlock Text="{Binding SmartHomeSummary}" FontSize="12" Margin="0,0,0,8"/>
+              <ItemsControl ItemsSource="{Binding DeviceLines}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="11" Margin="0,0,0,4" TextWrapping="Wrap"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
             </StackPanel>
           </Border>
         </StackPanel>
